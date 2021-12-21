@@ -21,13 +21,15 @@ const currentMinute = $(".doashboard__current-minute")
 const currentSecond = $(".doashboard__current-second")
 const volume = $(".volume")
 const volumeProgress = $(".volume-progress")
-
+const menuVn = $(".menu-vn")
+const menuUk = $(".menu-uk")
 
 const app = {
     currentSong: 0,
     isRandom: false,
     isPlay: false,
     isRepeat: false,
+    isSongUk: false,
     played: [],
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     setConfig:function(key, value){
@@ -37,8 +39,9 @@ const app = {
     loadConfig: function(){
         this.isRepeat = this.config.isRepeat
         this.isRandom = this.config.isRandom
+        this.isSongUk = this.config.isSongUk
     },
-    songs: [
+    songsVn: [
         {
             name: "Cứ chill thôi",
             singer: "Chillies",
@@ -104,11 +107,91 @@ const app = {
         }
     ],
 
-    render: function(){
-        const htmls = this.songs.map((song, index) => {
-            let currentSongRender = this.config.currentSong === undefined ? this.currentSong : this.config.currentSong
+    songsUk: [
+        {
+            name: "Senorita",
+            singer: "Shawn Mendes",
+            path: "SongUk_1.mp3",
+            image: "SongUk_1.jpg",
+            duration: 191,
+        },
+        {
+            name: "I'm a mess",
+            singer: "Bebe Rexha",
+            path: "SongUk_2.mp3",
+            image: "SongUk_2.jpg",
+            duration: 195,
+        },
+        {
+            name: "Sweet but Psycho",
+            singer: "Ava Max",
+            path: "SongUk_3.mp3",
+            image: "SongUk_3.jpg",
+            duration: 187,
+        },
+        {
+            name: "Don't Wanna Know",
+            singer: "Maroon 5",
+            path: "SongUk_4.mp3",
+            image: "SongUk_4.jpg",
+            duration: 213,
+        },
+        {
+            name: "IDGAF",
+            singer: "Dua Lipa",
+            path: "SongUk_5.mp3",
+            image: "SongUk_5.jpg",
+            duration: 240,
+        },
+        {
+            name: "2002",
+            singer: "AnneMaria",
+            path: "SongUk_6.mp3",
+            image: "SongUk_6.jpg",
+            duration: 187,
+        },
+        {
+            name: "Perfect",
+            singer: "Ed Sheeran",
+            path: "SongUk_7.mp3",
+            image: "SongUk_7.jpg",
+            duration: 263,
+        },
+        {
+            name: "Girls Like You",
+            singer: "Maroon 5",
+            path: "SongUk_8.mp3",
+            image: "SongUk_8.jpg",
+            duration: 232,
+        },
+    ],
+
+    renderVn: function(){
+        const htmls = this.songsVn.map((song, index) => {
+            let currentSongRenderVn = this.config.currentSong === undefined ? this.currentSong : this.config.currentSong
             return`
-                <div class="playlist__song ${index === currentSongRender ? 'active': ''}" data-index="${index}">
+                <div class="playlist__song ${index === currentSongRenderVn ? 'active': ''}" data-index="${index}">
+                    <div class="playlist__song-thumb">
+                        <img src="./assets/img/${song.image}" alt="">
+                    </div>
+                    <div class="playlist__song-content">
+                        <h3 class="playlist__song-title">${song.name}</h3>
+                        <div class="playlist__song-author">${song.singer}</div>
+                    </div>
+                    <div class="playlist__song-option">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                </div>
+            `
+        })
+        playList.innerHTML = htmls.join("")
+    },
+
+    renderUk: function(){
+        const htmls = this.songsUk.map((song, index) => {
+            let currentSongRenderUk = this.config.currentSong === undefined ? this.currentSong : this.config.currentSong
+            return`
+                <div class="playlist__song ${index === currentSongRenderUk ? 'active': ''}" data-index="${index}">
                     <div class="playlist__song-thumb">
                         <img src="./assets/img/${song.image}" alt="">
                     </div>
@@ -198,7 +281,11 @@ const app = {
                 _this.nextSong()
             }
             audio.play()
-            this.render()
+            if(_this.isSongUk){
+                _this.renderUk()
+            }else{
+                _this.renderVn()
+            }
             this.scrollActiveSong()
         })
 
@@ -210,8 +297,12 @@ const app = {
                 _this.prevSong()
             }
             audio.play()
-            this.render()
-            this.scrollActiveSong()
+            if(_this.isSongUk){
+                _this.renderUk()
+            }else{
+                _this.renderVn()
+            }
+            _this.scrollActiveSong()
         })
 
         // Xu ly bat tat random
@@ -245,7 +336,11 @@ const app = {
                     _this.currentSong = Number(songNode.dataset.index)
                     _this.setConfig("currentSong", _this.currentSong)
                     _this.loadCurrentSong()
-                    _this.render()
+                    if(_this.isSongUk){
+                        _this.renderUk()
+                    }else{
+                        _this.renderVn()
+                    }
                     audio.play()
                 }
                 if(e.target.closest(".playlist__song-option")){
@@ -256,12 +351,31 @@ const app = {
             }
         })
 
-        // Tang giam am luong
-        audio.volume = .5
-        volume.addEventListener("input",(e)=>{
-            audio.volume = e.target.value / 100
-            volumeProgress.style.width = `${e.target.value}%`
+        // Chuyen menu sang Vn
+        menuVn.addEventListener("click",()=>{
+            _this.isSongUk = false
+            menuUk.classList.remove("active")
+            menuVn.classList.add("active")
+            _this.loadCurrentSong()
+            _this.renderVn()
+            audio.play()
+            _this.setConfig("isSongUk", _this.isSongUk)
         })
+
+        // Chuyen menu sang Uk
+        menuUk.addEventListener("click",()=>{
+            _this.isSongUk = true
+            menuUk.classList.add("active")
+            menuVn.classList.remove("active")
+            if(_this.config.currentSong >= this.songsUk.length){
+                _this.config.currentSong = this.songsUk.length - 1
+            }
+            _this.loadCurrentSong()
+            _this.renderUk()
+            audio.play()
+            _this.setConfig("isSongUk", _this.isSongUk)
+        })
+
     },
 
     scrollActiveSong: function(){
@@ -276,11 +390,20 @@ const app = {
 
     playRandomSong: function(){
         let randomSong 
-        do{
-            randomSong = Math.floor(Math.random() * this.songs.length)
-        }while(randomSong === this.currentSong || this.played.includes(randomSong))
-        if(this.played.length === this.songs.length - 1){
-            this.played = []
+        if(this.isSongUk){
+            do{
+                randomSong = Math.floor(Math.random() * this.songsUk.length)
+            }while(randomSong === this.currentSong || this.played.includes(randomSong))
+            if(this.played.length === this.songsUk.length - 1){
+                this.played = []
+            }
+        }else{
+            do{
+                randomSong = Math.floor(Math.random() * this.songsVn.length)
+            }while(randomSong === this.currentSong || this.played.includes(randomSong))
+            if(this.played.length === this.songsVn.length - 1){
+                this.played = []
+            }
         }
         this.currentSong = randomSong
         this.played.push(randomSong)
@@ -290,8 +413,14 @@ const app = {
 
     nextSong: function(){
         this.currentSong++
-        if(this.currentSong === this.songs.length){
-            this.currentSong = 0
+        if(this.isSongUk){
+            if(this.currentSong >= this.songsUk.length){
+                this.currentSong = 0
+            }
+        }else{
+            if(this.currentSong >= this.songsVn.length){
+                this.currentSong = 0
+            }
         }
         this.setConfig("currentSong", this.currentSong)
         this.loadCurrentSong()
@@ -299,8 +428,17 @@ const app = {
 
     prevSong: function(){
         this.currentSong--
-        if(this.currentSong === -1){
-            this.currentSong = this.songs.length -1
+        if(this.isSongUk){
+            if(this.currentSong >= this.songsUk.length){
+                this.currentSong = this.songsUk.length - 2
+            }
+            if(this.currentSong <= -1){
+                this.currentSong = this.songsUk.length -1
+            }
+        }else{
+            if(this.currentSong <= -1){
+                this.currentSong = this.songsVn.length - 1 
+            }
         }
         this.setConfig("currentSong", this.currentSong)
         this.loadCurrentSong()
@@ -317,6 +455,14 @@ const app = {
         this.setDurationTime(durationMinute, durationSecond)
     },
 
+    getCurrentSong: function(){
+        if(this.isSongUk){
+            return this.config.currentSong === undefined ? this.songsUk[this.currentSong] : this.songsUk[this.config.currentSong]
+        }
+        return this.config.currentSong === undefined ? this.songsVn[this.currentSong] : this.songsVn[this.config.currentSong]
+    },
+
+
     setCurrentTime: function(currentTimeEl){
         var currentTimeFloor = Math.floor(currentTimeEl)
         var currentMinuteEl = Math.floor(currentTimeFloor / 60)
@@ -330,6 +476,7 @@ const app = {
         }
     },
 
+    
     setDurationTime: function(durationMinute, durationSecond){
         if(durationSecond < 10){
             durationTime.innerHTML = `0${durationMinute}:0${durationSecond}`
@@ -339,9 +486,7 @@ const app = {
         }
     },
 
-    getCurrentSong: function(){
-        return this.config.currentSong === undefined ? this.songs[this.currentSong] : this.songs[this.config.currentSong]
-    },
+    
 
     start: function(){
         // Gan cau hinh tu config dc luu san
@@ -354,7 +499,14 @@ const app = {
         this.loadCurrentSong()
 
         // Render playlist
-        this.render()
+        if(this.isSongUk){
+            menuUk.classList.add("active")
+            menuVn.classList.remove("active")
+            this.renderUk()
+
+        }else{
+            this.renderVn()
+        }
 
         // Hien thi trang thai ban dau cau cac buttons
         if(this.isRepeat){
