@@ -104,6 +104,13 @@ const app = {
             path: "Song_9.mp3",
             image: "Song_9.jpg",
             duration: 147,
+        },
+        {
+            name: "101520",
+            singer: "Sol7 & Pretty XIX",
+            path: "Song_10.mp3",
+            image: "Song_10.jpg",
+            duration: 191,
         }
     ],
 
