@@ -1243,10 +1243,10 @@ const app = {
             }else{
                 _this.nextSong()
             }
+            audio.play()
             lyrics.style.height = 0
             document.querySelector(".doashboard__more.show").classList.remove("show")
             isShow = false
-            audio.play()
             if(_this.isSongUk){
                 _this.renderUk()
             }else{
@@ -1262,10 +1262,10 @@ const app = {
             }else{
                 _this.prevSong()
             }
+            audio.play()
             lyrics.style.height = 0
             document.querySelector(".doashboard__more.show").classList.remove("show")
             isShow = false
-            audio.play()
             if(_this.isSongUk){
                 _this.renderUk()
             }else{
