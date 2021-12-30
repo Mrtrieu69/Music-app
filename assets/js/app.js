@@ -1177,7 +1177,7 @@ const app = {
                 doashMore.classList.toggle("show")
             }
             if(isShow){
-                lyrics.style.height = "260px"
+                lyrics.style.height = "244px"
             }else{
                 lyrics.style.height = "0"
             }
@@ -1243,6 +1243,9 @@ const app = {
             }else{
                 _this.nextSong()
             }
+            lyrics.style.height = 0
+            document.querySelector(".doashboard__more.show").classList.remove("show")
+            isShow = false
             audio.play()
             if(_this.isSongUk){
                 _this.renderUk()
@@ -1259,6 +1262,9 @@ const app = {
             }else{
                 _this.prevSong()
             }
+            lyrics.style.height = 0
+            document.querySelector(".doashboard__more.show").classList.remove("show")
+            isShow = false
             audio.play()
             if(_this.isSongUk){
                 _this.renderUk()
