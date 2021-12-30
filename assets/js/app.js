@@ -1244,15 +1244,15 @@ const app = {
                 _this.nextSong()
             }
             audio.play()
-            lyrics.style.height = 0
-            document.querySelector(".doashboard__more.show").classList.remove("show")
-            isShow = false
             if(_this.isSongUk){
                 _this.renderUk()
             }else{
                 _this.renderVn()
             }
             this.scrollActiveSong()
+            lyrics.style.height = 0
+            document.querySelector(".doashboard__more.show").classList.remove("show")
+            isShow = false
         })
 
         // Prev Song
@@ -1263,15 +1263,15 @@ const app = {
                 _this.prevSong()
             }
             audio.play()
-            lyrics.style.height = 0
-            document.querySelector(".doashboard__more.show").classList.remove("show")
-            isShow = false
             if(_this.isSongUk){
                 _this.renderUk()
             }else{
                 _this.renderVn()
             }
             _this.scrollActiveSong()
+            lyrics.style.height = 0
+            document.querySelector(".doashboard__more.show").classList.remove("show")
+            isShow = false
         })
 
         // Xu ly bat tat random
