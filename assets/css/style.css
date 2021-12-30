@@ -250,7 +250,7 @@ i.fa-pause{
 }
 
 .doashboard__more{
-    color: var(--text-color);
+    color: var(--primary-color);
     cursor: pointer;
     transition: all ease 0.2s;
 }
@@ -259,9 +259,6 @@ i.fa-pause{
     display: none;
 }
 
-.doashboard__more:hover{
-    color: var(--primary-color);
-}
 
 .doashboard__more.show .show-lyrics{
     display: inline-block;

@@ -26,6 +26,7 @@ const volumeProgress = $(".volume-progress")
 const menuVn = $(".menu-vn")
 const menuUk = $(".menu-uk")
 
+
 const app = {
     currentSong: 0,
     isRandom: false,
@@ -1176,7 +1177,7 @@ const app = {
                 doashMore.classList.toggle("show")
             }
             if(isShow){
-                lyrics.style.height = "134px"
+                lyrics.style.height = "calc(100vh - 416px)"
             }else{
                 lyrics.style.height = "0"
             }
@@ -1448,11 +1449,9 @@ const app = {
             durationTime.innerHTML = `0${durationMinute}:0${durationSecond}`
         }else{
             durationTime.innerHTML = `0${durationMinute}:${durationSecond}`
-
         }
     },
 
-    
 
     start: function(){
         // Gan cau hinh tu config dc luu san
