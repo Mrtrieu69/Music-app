@@ -1177,7 +1177,7 @@ const app = {
                 doashMore.classList.toggle("show")
             }
             if(isShow){
-                lyrics.style.height = "calc(100vh - 416px)"
+                lyrics.style.height = "260px"
             }else{
                 lyrics.style.height = "0"
             }
