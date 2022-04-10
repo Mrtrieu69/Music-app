@@ -101,9 +101,11 @@ html {
     font-size: 22px;
     color: #555;
     padding: 14px;
+    cursor: pointer;
 }
 
 .btn.btn-play{
+    position: relative;
     color: white;
     background: var(--primary-color);
     border-radius: 50%;
@@ -115,12 +117,57 @@ html {
     align-items: center;
 }
 
+.btn.btn-play > i{
+    position: relative;
+    z-index: 2;
+}
+.btn.btn-play > span{
+    position: absolute;
+    display: none;
+    top: -8px;
+    left: -8px;
+    bottom: -8px;
+    right: -8px;
+    z-index: -1;
+    animation: round 5s linear infinite;
+    background: 
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, rgb(255, 115, 1), rgb(236, 31, 85)) border-box;
+    border: 1px solid transparent;
+}
+
+.btn.btn-play .span1{
+    animation-duration: 3s;
+    border-radius: 44% 56% 45% 55% / 40% 51% 49% 60% ;
+}
+
+.btn.btn-play .span2 {
+    top: -6px;
+    left: -6px;
+    bottom: -6px;
+    right: -6px;
+    animation-direction: reverse;
+    border-radius: 60% 40% 49% 51% / 40% 59% 41% 60%   ;
+}
+
+.btn.btn-play .span3{
+    top: -4px;
+    left: -4px;
+    bottom: -4px;
+    right: -4px;
+    border-radius: 44% 56% 45% 55% / 40% 51% 49% 60%   ;
+} 
+
 .btn.active{
     color: var(--primary-color);
 }
 
 i.fa-pause{
     display: none;
+}
+
+.btn.btn-play.playing > span{
+    display: block;
 }
 
 .btn-play.playing i.fa-pause{
@@ -141,8 +188,8 @@ i.fa-pause{
     width: 100%;
     height: 5px;
     -webkit-appearance: none;
-    background: #e3e3e3;
     outline: none;
+    background: #e3e3e3;
     border-radius: 3px;
 }
 
@@ -194,6 +241,7 @@ i.fa-pause{
     padding: 16px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .playlist__song.active{
@@ -286,4 +334,14 @@ i.fa-pause{
 
 .lyrics::-webkit-scrollbar{
     display: none;
+}
+
+
+@keyframes round {
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
 }
